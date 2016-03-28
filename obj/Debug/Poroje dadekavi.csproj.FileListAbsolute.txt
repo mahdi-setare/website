@@ -1,0 +1,9 @@
+c:\users\mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\bin\Debug\Poroje dadekavi.exe.config
+c:\users\mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\obj\Debug\Poroje dadekavi.csprojResolveAssemblyReference.cache
+C:\Users\Mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\bin\Debug\Poroje dadekavi.exe
+C:\Users\Mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\bin\Debug\Poroje dadekavi.pdb
+C:\Users\Mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\obj\Debug\Poroje dadekavi.exe
+C:\Users\Mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\obj\Debug\Poroje dadekavi.pdb
+C:\Users\Mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Mahdi\documents\visual studio 2013\Projects\Poroje dadekavi\Poroje dadekavi\bin\Debug\HtmlAgilityPack.xml
