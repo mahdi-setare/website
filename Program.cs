@@ -47,6 +47,19 @@ namespace Poroje_dadekavi
             {
                 result1 += item.InnerText;
             }
+            //--------------------delete preposition and split----------------------------------
+            result1 = Regex.Replace(result1, @"\ba\b|\bam\b|\bis\b|\bare\b|\bwas\b|\bwere\b|\bwill\b|\bto\b|\bof\b|\bin\b|\bthe\b|\bas\b|\bat\b|\bbut\b|\bby\b|\bfor\b|\bfrom\b|\bvia\b|\bwith\b|\band\b|\bwithin\b|\btill\b", " ");
+            result1 = Regex.Replace(result1, @"\bwithout\b|\bupon\b|\bthan\b|\bper\b|\bhave\b|\bhas\b|\bdo\b|\bdoes\b|\bcould\b|\bshall\b|\bmay\b|\bmust\b|\bhad\b|\bdid\b|\bcan\b|\bmight\b|\bbeen\b|\bany\b|\ban\b|\b   \b|\b  \b|\b    \b|\b     \b|\b      \b|\b       \b"," ");
+
+            char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
+            string[] words = result1.Split(delimiterChars);
+            foreach (string s in words)
+            {
+                if (s != " ")
+                {
+                    System.Console.WriteLine(s);
+                }
+            }
             //------------ do same things for second website------------------
             HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(url2);
             HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
@@ -76,9 +89,22 @@ namespace Poroje_dadekavi
             {
                 result2 += item.InnerText;
             }
+            //------------------delete preposition and splite--------------------------
+            result2 = Regex.Replace(result2, @"\ba\b|\bam\b|\bis\b|\bare\b|\bwas\b|\bwere\b|\bwill\b|\bto\b|\bof\b|\bin\b|\bthe\b|\bas\b|\bat\b|\bbut\b|\bby\b|\bfor\b|\bfrom\b|\bvia\b|\bwith\b|\band\b|\bwithin\b|\btill\b", " ");
+            result2 = Regex.Replace(result2, @"\bwithout\b|\bupon\b|\bthan\b|\bper\b|\bhave\b|\bhas\b|\bdo\b|\bdoes\b|\bcould\b|\bshall\b|\bmay\b|\bmust\b|\bhad\b|\bdid\b|\bcan\b|\bmight\b|\bbeen\b|\bany\b|\ban\b|\b   \b|\b  \b|\b    \b|\b     \b|\b      \b|\b       \b", " ");
+
+            char[] delimiterChars2 = { ' ', ',', '.', ':', '\t' };
+            string[] words2 = result2.Split(delimiterChars);
+            foreach (string s in words2)
+            {
+                if (s != " ")
+                {
+                    System.Console.WriteLine(s);
+                }
+            }
          
-            Console.WriteLine(result1);
-            Console.WriteLine(result2);
+          //  Console.WriteLine(result1);
+           // Console.WriteLine(result2);
             Console.Read();
         }
 
