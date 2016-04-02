@@ -54,14 +54,27 @@ namespace Poroje_dadekavi
 
             string pattern = "[^\\w]"; //get all spaces and other signs, like: '.' '?' '!'
             string[] words = null;
+            int cont = 0, b = 0;
             words = Regex.Split(result1, pattern, RegexOptions.IgnoreCase);
             foreach (string s in words)
             {
-                if (s != " ")
+                if (s.ToString() != String.Empty)
                 {
-                    System.Console.WriteLine(s);
+                    cont++;
                 }
             }
+            string[] ans1 = new string[cont];
+
+            foreach (string s in words)
+            {
+                if (s.ToString() != string.Empty)
+                {
+                    ans1[b] = s;
+                    b++;
+                }
+
+            }
+         
             //------------ do same things for second website------------------
             HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(url2);
             HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
@@ -93,20 +106,40 @@ namespace Poroje_dadekavi
             }
             //------------------delete preposition and splite--------------------------
             result2 = Regex.Replace(result2, @"\ba\b|\bam\b|\bis\b|\bare\b|\bwas\b|\bwere\b|\bwill\b|\bto\b|\bof\b|\bin\b|\bthe\b|\bas\b|\bat\b|\bbut\b|\bby\b|\bfor\b|\bfrom\b|\bvia\b|\bwith\b|\band\b|\bwithin\b|\btill\b", " ");
-            result2 = Regex.Replace(result2, @"\bwithout\b|\bupon\b|\bthan\b|\bper\b|\bhave\b|\bhas\b|\bdo\b|\bdoes\b|\bcould\b|\bshall\b|\bmay\b|\bmust\b|\bhad\b|\bdid\b|\bcan\b|\bmight\b|\bbeen\b|\bany\b|\ban\b|\b   \b|\b  \b|\b    \b|\b     \b|\b      \b|\b       \b", " ");
-
-            char[] delimiterChars2 = { ' ', ',', '.', ':', '\t' };
-            string[] words2 = result2.Split(delimiterChars);
+            result2 = Regex.Replace(result2, @"\bwithout\b|\bupon\b|\bthan\b|\bper\b|\bhave\b|\bhas\b|\bdo\b|\bdoes\b|\bcould\b|\bshall\b|\bmay\b|\bmust\b|\bhad\b|\bdid\b|\bcan\b|\bmight\b|\bbeen\b|\bany\b|\ban\b", " ");
+            result2 = Regex.Replace(result1, @"\b   \b|\b  \b|\b    \b|\b     \b|\b      \b|\b       \b", " ");
+            string pattern2 = "[^\\w]"; //get all spaces and other signs, like: '.' '?' '!'
+            string[] words2 = null;
+            int cont2 = 0, b2 = 0;
+            words2 = Regex.Split(result2, pattern2, RegexOptions.IgnoreCase);
             foreach (string s in words2)
             {
-                if (s != " ")
+                if (s.ToString() != String.Empty)
                 {
-                    System.Console.WriteLine(s);
+                    cont2++;
                 }
             }
-         
-          //  Console.WriteLine(result1);
-           // Console.WriteLine(result2);
+            string[] ans2 = new string[cont2];
+
+            foreach (string s in words2)
+            {
+                if (s.ToString() != string.Empty)
+                {
+                    ans2[b2] = s;
+                    b2++;
+                }
+
+            }
+            //---------------------------
+            foreach (string g in ans1)
+            {
+                System.Console.WriteLine(g);
+            }
+            foreach (string g in ans2)
+            {
+                System.Console.WriteLine(g);
+            }
+          
             Console.Read();
         }
 
