@@ -12,7 +12,7 @@ namespace Poroje_dadekavi
 {
     class Program
     {
-       
+
         static void Main(string[] args)
         {
             string url = Console.ReadLine();
@@ -51,7 +51,6 @@ namespace Poroje_dadekavi
             result1 = Regex.Replace(result1, @"\ba\b|\bam\b|\bis\b|\bare\b|\bwas\b|\bwere\b|\bwill\b|\bto\b|\bof\b|\bin\b|\bthe\b|\bas\b|\bat\b|\bbut\b|\bby\b|\bfor\b|\bfrom\b|\bvia\b|\bwith\b|\band\b|\bwithin\b|\btill\b", " ");
             result1 = Regex.Replace(result1, @"\bwithout\b|\bupon\b|\bthan\b|\bper\b|\bhave\b|\bhas\b|\bdo\b|\bdoes\b|\bcould\b|\bshall\b|\bmay\b|\bmust\b|\bhad\b|\bdid\b|\bcan\b|\bmight\b|\bbeen\b|\bany\b|\ban\b"," ");
             result1 = Regex.Replace(result1, @"\b   \b|\b  \b|\b    \b|\b     \b|\b      \b|\b       \b", " ");
-
             string pattern = "[^\\w]"; //get all spaces and other signs, like: '.' '?' '!'
             string[] words = null;
             int cont = 0, b = 0;
@@ -74,6 +73,31 @@ namespace Poroje_dadekavi
                 }
 
             }
+           //---------------cont words number-----------------------
+            Array.Sort(ans1);
+            string temp = "";
+            int size = 0;
+            for (int it = 0; it < ans1.Length; ++it)
+            {
+                if (temp != ans1[it]) ++size;
+                temp = ans1[it];
+            }
+
+            temp = ans1.Length > 0 ? ans1[0] : "";
+            List<KeyValuePair<string, int>> array = new List<KeyValuePair<string, int>>();
+            size = 1;
+            for (int it = 1; it < ans1.Length; ++it)
+            {
+                if (ans1[it] == temp) ++size;
+                else
+                {
+                    array.Add(new KeyValuePair<string, int>(temp, size));
+                    size = 1;
+                }
+                temp = ans1[it];
+            }
+            array.Add(new KeyValuePair<string, int>(ans1[ans1.Length - 1], size));
+
          
             //------------ do same things for second website------------------
             HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(url2);
@@ -130,12 +154,39 @@ namespace Poroje_dadekavi
                 }
 
             }
-            //---------------------------
-            foreach (string g in ans1)
+            //------------counting words number---------------
+            //put words and words count in list
+            Array.Sort(ans2);
+            string temp2 = "";
+            int size2 = 0;
+            for (int it = 0; it < ans2.Length; ++it)
+            {
+                if (temp2 != ans2[it]) ++size2;
+                temp2 = ans2[it];
+            }
+
+            temp2 = ans2.Length > 0 ? ans2[0] : "";
+            List<KeyValuePair<string, int>> array2 = new List<KeyValuePair<string, int>>();
+
+            size2 = 1;
+            for (int it = 1; it < ans2.Length; ++it)
+            {
+                if (ans2[it] == temp2) ++size2;
+                else
+                {
+                    array2.Add(new KeyValuePair<string, int>(temp2, size2));
+                    size2 = 1;
+                }
+                temp2 = ans2[it];
+            }
+            array2.Add(new KeyValuePair<string, int>(ans2[ans2.Length - 1], size2));
+
+            //----------------------------
+            foreach (var g in array)
             {
                 System.Console.WriteLine(g);
             }
-            foreach (string g in ans2)
+            foreach (var g in array2)
             {
                 System.Console.WriteLine(g);
             }
