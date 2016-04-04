@@ -26,7 +26,7 @@ namespace Poroje_dadekavi
             string title1 = " ";
             foreach (Match m in m1)  //get inner text from web title
             {
-                if(m.Success)
+                if (m.Success)
                 {
                     title1 = m.Groups[1].Value;
                 }
@@ -47,10 +47,7 @@ namespace Poroje_dadekavi
             {
                 result1 += item.InnerText;
             }
-            //--------------------delete preposition and split----------------------------------
-            result1 = Regex.Replace(result1, @"\ba\b|\bam\b|\bis\b|\bare\b|\bwas\b|\bwere\b|\bwill\b|\bto\b|\bof\b|\bin\b|\bthe\b|\bas\b|\bat\b|\bbut\b|\bby\b|\bfor\b|\bfrom\b|\bvia\b|\bwith\b|\band\b|\bwithin\b|\btill\b", " ");
-            result1 = Regex.Replace(result1, @"\bwithout\b|\bupon\b|\bthan\b|\bper\b|\bhave\b|\bhas\b|\bdo\b|\bdoes\b|\bcould\b|\bshall\b|\bmay\b|\bmust\b|\bhad\b|\bdid\b|\bcan\b|\bmight\b|\bbeen\b|\bany\b|\ban\b|\bthe\b"," ");
-            result1 = Regex.Replace(result1, @"\b   \b|\b  \b|\b    \b|\b     \b|\b      \b|\b       \b", " ");
+            //--------------------split----------------------------------
             result1 = result1.ToLower();
             string pattern = "[^\\w]"; //get all spaces and other signs, like: '.' '?' '!'
             string[] words = null;
@@ -74,30 +71,24 @@ namespace Poroje_dadekavi
                 }
 
             }
-           //---------------cont words number-----------------------
-            Array.Sort(ans1);
-            string temp = "";
-            int size = 0;
-            for (int it = 0; it < ans1.Length; ++it)
+            //-------------use map for counting words in string and add words to string-------------------
+            var map1 = new Dictionary<string, int>();
+            foreach (var s in ans1)
             {
-                if (temp != ans1[it]) ++size;
-                temp = ans1[it];
-            }
-
-            temp = ans1.Length > 0 ? ans1[0] : "";
-            List<KeyValuePair<string, int>> array = new List<KeyValuePair<string, int>>();
-            size = 1;
-            for (int it = 1; it < ans1.Length; ++it)
-            {
-                if (ans1[it] == temp) ++size;
+                if (map1.ContainsKey(s))
+                    map1[s]++;
                 else
                 {
-                    array.Add(new KeyValuePair<string, int>(temp, size));
-                    size = 1;
+                    map1.Add(s, 0);
                 }
-                temp = ans1[it];
             }
-            array.Add(new KeyValuePair<string, int>(ans1[ans1.Length - 1], size));
+
+            //-----------------delete preposition------------------------
+            string prepositions =
+                "a, about, above, across, after, again, against, all, almost, alone, along, already, also, although, always, am, among, an, and, another, any, anybody, anyone, anything, anywhere, are, area, areas, aren't, around, as, ask, asked, asking, asks, at, away, b, back, backed, backing, backs, be, became, because, become, becomes, been, before, began, behind, being, beings, below, best, better, between, big, both, but, by, c, came, can, cannot, can't, case, cases, certain, certainly, clear, clearly, come, could, couldn't, d, did, didn't, differ, different, differently, do, does, doesn't, doing, done, don't, down, downed, downing, downs, during, e, each, early, either, end, ended, ending, ends, enough, even, evenly, ever, every, everybody, everyone, everything, everywhere, f, face, faces, fact, facts, far, felt, few, find, finds, first, for, four, from, full, fully, further, furthered, furthering, furthers, g, gave, general, generally, get, gets, give, given, gives, go, going, good, goods, got, great, greater, greatest, group, grouped, grouping, groups, h, had, hadn't, has, hasn't, have, haven't, having, he, he'd, he'll, her, here, here's, hers, herself, he's, high, higher, highest, him, himself, his, how, however, how's, i, i'd, if, i'll, i'm, important, in, interest, interested, interesting, interests, into, is, isn't, it, its, it's, itself, i've, j, just, k, keep, keeps, kind, knew, know, known, knows, l, large, largely, last, later, latest, least, less, let, lets, let's, like, likely, long, longer, longest, m, made, make, making, man, many, may, me, member, members, men, might, more, most, mostly, mr, mrs, much, must, mustn't, my, myself, n, necessary, need, needed, needing, needs, never, new, newer, newest, next, no, nobody, non, noone, nor, not, nothing, now, nowhere, number, numbers, o, of, off, often, old, older, oldest, on, once, one, only, open, opened, opening, opens, or, order, ordered, ordering, orders, other, others, ought, our, ours, ourselves, out, over, own, p, part, parted, parting, parts, per, perhaps, place, places, point, pointed, pointing, points, possible, present, presented, presenting, presents, problem, problems, put, puts, q, quite, r, rather, really, right, room, rooms, s, said, same, saw, say, says, second, seconds, see, seem, seemed, seeming, seems, sees, several, shall, shan't, she, she'd, she'll, she's, should, shouldn't, show, showed, showing, shows, side, sides, since, small, smaller, smallest, so, some, somebody, someone, something, somewhere, state, states, still, such, sure, t, take, taken, than, that, that's, the, their, theirs, them, themselves, then, there, therefore, there's, these, they, they'd, they'll, they're, they've, thing, things, think, thinks, this, those, though, thought, thoughts, three, through, thus, to, today, together, too, took, toward, turn, turned, turning, turns, two, u, under, until, up, upon, us, use, used, uses, v, very, w, want, wanted, wanting, wants, was, wasn't, way, ways, we, we'd, well, we'll, wells, went, were, we're, weren't, we've, what, what's, when, when's, where, where's, whether, which, while, who, whole, whom, who's, whose, why, why's, will, with, within, without, won't, work, worked, working, works, would, wouldn't, x, y, year, years, yes, yet, you, you'd, you'll, young, younger, youngest, your, you're, yours, yourself, yourselves, you've, z";
+            string temp = prepositions.Replace(", ", " ");
+            string[] prearry = temp.Split(' ');
+
             //------------ do same things for second website------------------
             HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(url2);
             HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
@@ -128,9 +119,6 @@ namespace Poroje_dadekavi
                 result2 += item.InnerText;
             }
             //------------------delete preposition and splite--------------------------
-            result2 = Regex.Replace(result2, @"\ba\b|\bam\b|\bis\b|\bare\b|\bwas\b|\bwere\b|\bwill\b|\bto\b|\bof\b|\bin\b|\bthe\b|\bas\b|\bat\b|\bbut\b|\bby\b|\bfor\b|\bfrom\b|\bvia\b|\bwith\b|\band\b|\bwithin\b|\btill\b", " ");
-            result2 = Regex.Replace(result2, @"\bwithout\b|\bupon\b|\bthan\b|\bper\b|\bhave\b|\bhas\b|\bdo\b|\bdoes\b|\bcould\b|\bshall\b|\bmay\b|\bmust\b|\bhad\b|\bdid\b|\bcan\b|\bmight\b|\bbeen\b|\bany\b|\ban\b", " ");
-            result2 = Regex.Replace(result1, @"\b   \b|\b  \b|\b    \b|\b     \b|\b      \b|\b       \b", " ");
             result2 = result2.ToLower();
             string pattern2 = "[^\\w]"; //get all spaces and other signs, like: '.' '?' '!'
             string[] words2 = null;
@@ -155,147 +143,24 @@ namespace Poroje_dadekavi
 
             }
             //------------counting words number---------------
-            //put words and words count in list
-            Array.Sort(ans2);
-            string temp2 = "";
-            int size2 = 0;
-            for (int it = 0; it < ans2.Length; ++it)
+            var map2 = new Dictionary<string, int>();
+            foreach (var s in ans2)
             {
-                if (temp2 != ans2[it]) ++size2;
-                temp2 = ans2[it];
-            }
-
-            temp2 = ans2.Length > 0 ? ans2[0] : "";
-            List<KeyValuePair<string, int>> array2 = new List<KeyValuePair<string, int>>();
-
-            size2 = 1;
-            for (int it = 1; it < ans2.Length; ++it)
-            {
-                if (ans2[it] == temp2) ++size2;
+                if (map2.ContainsKey(s))
+                    map2[s]++;
                 else
                 {
-                    array2.Add(new KeyValuePair<string, int>(temp2, size2));
-                    size2 = 1;
+                    map2.Add(s, 0);
                 }
-                temp2 = ans2[it];
-            }
-            array2.Add(new KeyValuePair<string, int>(ans2[ans2.Length - 1], size2));
-
-            //----------------------------------
-            List<KeyValuePair<int, int>> array3 = new List<KeyValuePair<int, int>>();
-            if (array.Count >= array2.Count)
-            {
-                bool[] f = new bool[array.Count];
-                for (int kk = 0; kk < array.Count; kk++)
-                {
-                    f[kk] = true;
-                }
-                int ss = 0;
-                foreach (var s in array2)
-                {
-                    bool flag = false;
-
-                    foreach (var s2 in array)
-                    {
-                        if (s.Key == s2.Key)
-                        {
-                            array3.Add(new KeyValuePair<int, int>(s.Value, s2.Value));
-                            f[ss] = false;
-                            ss++;
-                            flag = true;
-                            break;
-                        }
-
-                    }
-                    if (flag == false)
-                    {
-                        array3.Add(new KeyValuePair<int, int>(s.Value, 0));
-                    }
-                }
-                ss = 0;
-                foreach (var w in array)
-                {
-                    if (f[ss] == true)
-                    {
-                        array3.Add(new KeyValuePair<int, int>(0, w.Value));
-                    }
-                    ss++;
-                }
-
-                //--------calculate cosine similarity-----------
-                double dd = 0, d1 = 0, d2 = 0;
-
-                for (int i3 = 0; i3 < array3.Count; i3++)
-                {
-                    dd += array3[i3].Key * array3[i3].Value;
-                    d1 += array3[i3].Key * array3[i3].Key;
-                    d2 += array3[i3].Value * array3[i3].Value;
-                }
-                d1 = Math.Sqrt(d1);
-                d2 = Math.Sqrt(d2);
-                dd = ((dd / (d1 * d2)) * 100);
-                Console.WriteLine(dd.ToString());
-
-                Console.ReadLine();
-            }
-            else
-            {
-                bool[] f2 = new bool[array2.Count];
-                for (int kk = 0; kk < array2.Count; kk++)
-                {
-                    f2[kk] = true;
-                }
-                int ss2 = 0;
-                foreach (var s in array)
-                {
-                    bool flag2 = false;
-
-                    foreach (var s2 in array2)
-                    {
-                        if (s.Key == s2.Key)
-                        {
-                            array3.Add(new KeyValuePair<int, int>(s.Value, s2.Value));
-                            f2[ss2] = false;
-                            ss2++;
-                            flag2 = true;
-                            break;
-                        }
-
-                    }
-                    if (flag2 == false)
-                    {
-                        array3.Add(new KeyValuePair<int, int>(s.Value, 0));
-                    }
-                }
-                ss2 = 0;
-                foreach (var w in array2)
-                {
-                    if (f2[ss2] == true)
-                    {
-                        array3.Add(new KeyValuePair<int, int>(0, w.Value));
-                    }
-                    ss2++;
-                }
-
-                //-------------------
-                double dd = 0, d1 = 0, d2 = 0;
-
-                for (int i3 = 0; i3 < array3.Count; i3++)
-                {
-                    dd += array3[i3].Key * array3[i3].Value;
-                    d1 += array3[i3].Key * array3[i3].Key;
-                    d2 += array3[i3].Value * array3[i3].Value;
-                }
-                d1 = Math.Sqrt(d1);
-                d2 = Math.Sqrt(d2);
-                dd = ((dd / (d1 * d2)) * 100);
-                Console.WriteLine(dd.ToString());
-
-                Console.ReadLine();
             }
 
-          
+            //-----------------------------------------
+
+
+            Console.ReadLine();
         }
 
+
     }
+
 }
