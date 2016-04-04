@@ -29,11 +29,11 @@ namespace Poroje_dadekavi
             }
             //--------------------split----------------------------------
             result1 = result1.ToLower();
-            string pattern = "[^\\w]"; //get all spaces and other signs, like: '.' '?' '!'
+            string pattern = "[^\\w]"; //get all spaces and other signs, like: '.' '?' '!'(from stack overflow)
             string[] words = null;
             int cont = 0, b = 0;
             words = Regex.Split(result1, pattern, RegexOptions.IgnoreCase);
-            foreach (string s in words)
+            foreach (string s in words)               //write my self
             {
                 if (s.ToString() != String.Empty)
                 {
@@ -53,7 +53,7 @@ namespace Poroje_dadekavi
             }
             //-------------use map for counting words in string and add words to string-------------------
             var map1 = new Dictionary<string, int>();  // I learn today dictionary and it help me very much
-            foreach (var s in ans1)
+            foreach (var s in ans1)                     
             {
                 if (map1.ContainsKey(s))
                     map1[s]++;
@@ -64,7 +64,7 @@ namespace Poroje_dadekavi
             }
 
             //-----------------delete preposition------------------------this code is better than previous  
-            string prepositions =                                         
+            string prepositions =                                         //find from internet
                 "a, about, above, across, after, again, against, all, almost, alone, along, already, also, although, always, am, among, an, and, another, any, anybody, anyone, anything, anywhere, are, area, areas, aren't, around, as, ask, asked, asking, asks, at, away, b, back, backed, backing, backs, be, became, because, become, becomes, been, before, began, behind, being, beings, below, best, better, between, big, both, but, by, c, came, can, cannot, can't, case, cases, certain, certainly, clear, clearly, come, could, couldn't, d, did, didn't, differ, different, differently, do, does, doesn't, doing, done, don't, down, downed, downing, downs, during, e, each, early, either, end, ended, ending, ends, enough, even, evenly, ever, every, everybody, everyone, everything, everywhere, f, face, faces, fact, facts, far, felt, few, find, finds, first, for, four, from, full, fully, further, furthered, furthering, furthers, g, gave, general, generally, get, gets, give, given, gives, go, going, good, goods, got, great, greater, greatest, group, grouped, grouping, groups, h, had, hadn't, has, hasn't, have, haven't, having, he, he'd, he'll, her, here, here's, hers, herself, he's, high, higher, highest, him, himself, his, how, however, how's, i, i'd, if, i'll, i'm, important, in, interest, interested, interesting, interests, into, is, isn't, it, its, it's, itself, i've, j, just, k, keep, keeps, kind, knew, know, known, knows, l, large, largely, last, later, latest, least, less, let, lets, let's, like, likely, long, longer, longest, m, made, make, making, man, many, may, me, member, members, men, might, more, most, mostly, mr, mrs, much, must, mustn't, my, myself, n, necessary, need, needed, needing, needs, never, new, newer, newest, next, no, nobody, non, noone, nor, not, nothing, now, nowhere, number, numbers, o, of, off, often, old, older, oldest, on, once, one, only, open, opened, opening, opens, or, order, ordered, ordering, orders, other, others, ought, our, ours, ourselves, out, over, own, p, part, parted, parting, parts, per, perhaps, place, places, point, pointed, pointing, points, possible, present, presented, presenting, presents, problem, problems, put, puts, q, quite, r, rather, really, right, room, rooms, s, said, same, saw, say, says, second, seconds, see, seem, seemed, seeming, seems, sees, several, shall, shan't, she, she'd, she'll, she's, should, shouldn't, show, showed, showing, shows, side, sides, since, small, smaller, smallest, so, some, somebody, someone, something, somewhere, state, states, still, such, sure, t, take, taken, than, that, that's, the, their, theirs, them, themselves, then, there, therefore, there's, these, they, they'd, they'll, they're, they've, thing, things, think, thinks, this, those, though, thought, thoughts, three, through, thus, to, today, together, too, took, toward, turn, turned, turning, turns, two, u, under, until, up, upon, us, use, used, uses, v, very, w, want, wanted, wanting, wants, was, wasn't, way, ways, we, we'd, well, we'll, wells, went, were, we're, weren't, we've, what, what's, when, when's, where, where's, whether, which, while, who, whole, whom, who's, whose, why, why's, will, with, within, without, won't, work, worked, working, works, would, wouldn't, x, y, year, years, yes, yet, you, you'd, you'll, young, younger, youngest, your, you're, yours, yourself, yourselves, you've, z";
             string temp = prepositions.Replace(", ", " ");
             string[] prearry = temp.Split(' ');
@@ -128,7 +128,33 @@ namespace Poroje_dadekavi
                 if (map2.ContainsKey(s))
                     map2.Remove(s);
             }
-           
+            //------------caculate cosine similarity--------------my self
+            double dd = 0;
+            foreach (var s in map1)
+            {
+                if (map2.ContainsKey(s.Key))
+                    dd += s.Value * map2[s.Key];
+            }
+
+            double sd1 = 0, sd2 = 0;
+            foreach (var s in map1)
+            {
+                if (s.Value != 0)
+                    sd1 += s.Value * s.Value;
+            }
+            foreach (var s in map2)
+            {
+                if (s.Value != 0)
+                    sd2 += s.Value * s.Value;
+            }
+            double d1 = 0,d2 = 0;
+            d1 = Math.Sqrt(sd1);
+            d2 = Math.Sqrt(sd2);
+            double cosin = 0;
+
+            cosin = (dd / (d1 * d2))*100;
+
+            Console.WriteLine(cosin.ToString());
             Console.ReadLine();
         }
 
